@@ -4,6 +4,7 @@ import { createORPCClient } from '@orpc/client'
 import { RPCLink } from '@orpc/client/fetch'
 import { createRouterUtils } from '@orpc/tanstack-query'
 import { BatchLinkPlugin } from '@orpc/client/plugins'
+import { PlanetSerializer } from '@/lib/serializer'
 
 /**
  * This is part of the Optimize SSR setup.
@@ -22,6 +23,7 @@ const link = new RPCLink({
 
     return `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/rpc`
   },
+  customJsonSerializers: [PlanetSerializer],
   plugins: [
     new BatchLinkPlugin({
       groups: [{

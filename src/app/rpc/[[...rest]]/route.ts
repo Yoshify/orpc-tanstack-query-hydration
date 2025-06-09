@@ -3,6 +3,7 @@ import { onError } from '@orpc/server'
 import { BatchHandlerPlugin } from '@orpc/server/plugins'
 import { RPCHandler } from '@orpc/server/fetch'
 import '../../../polyfill'
+import { PlanetSerializer } from '@/lib/serializer'
 
 const rpcHandler = new RPCHandler(router, {
   interceptors: [
@@ -10,6 +11,7 @@ const rpcHandler = new RPCHandler(router, {
       console.error(error)
     }),
   ],
+  customJsonSerializers: [PlanetSerializer],
   plugins: [
     new BatchHandlerPlugin(),
   ],
