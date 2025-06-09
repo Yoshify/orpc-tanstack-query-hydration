@@ -1,6 +1,7 @@
 'use client';
 
 import { orpc } from '@/lib/orpc';
+import { ORPCQueryProvider } from '@/lib/tanstack-query/client';
 import { Planet } from '@/schemas/planet-class';
 import { StandardRPCJsonSerializer } from '@orpc/client/standard';
 import {
@@ -24,40 +25,9 @@ const serializer = new StandardRPCJsonSerializer({
 });
 
 export function Providers(props: { children: React.ReactNode }) {
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          dehydrate: {
-            shouldDehydrateQuery: (query) => {
-              console.log('shouldDehydrateQuery', query);
-
-              return (
-                defaultShouldDehydrateQuery(query) ||
-                query.state.status === 'pending'
-              );
-            },
-            serializeData: (data) => {
-              console.log('serializeData', data);
-              const [json, meta] = serializer.serialize(data);
-              return { json, meta };
-            },
-          },
-          hydrate: {
-            deserializeData: (data) => {
-              console.log('deserializeData', data);
-              return serializer.deserialize(data.json, data.meta);
-            },
-          },
-        },
-      })
-  );
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        {props.children}
-      </HydrationBoundary>
-    </QueryClientProvider>
+    <ORPCQueryProvider>
+      {props.children}
+    </ORPCQueryProvider>
   );
 }
