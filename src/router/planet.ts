@@ -4,6 +4,10 @@ import { authed, pub } from '../orpc'
 import { NewPlanetSchema, PlanetSchema, UpdatePlanetSchema } from '../schemas/planet'
 import { retry } from '@/middlewares/retry'
 
+export class Planet {
+  constructor(public id: number, public name: string) { }
+}
+
 export const listPlanets = pub
   .use(retry({ times: 3 }))
   .route({
@@ -18,9 +22,13 @@ export const listPlanets = pub
       cursor: z.number().int().min(0).default(0),
     }),
   )
-  .output(z.array(PlanetSchema))
+  // .output(z.array(PlanetSchema))
   .handler(async ({ input, context }) => {
-    return context.db.planets.list(input.limit, input.cursor)
+    return [
+      new Planet(1, 'Earth'),
+      new Planet(2, 'Mars'),
+      new Planet(3, 'Jupiter'),
+    ]
   })
 
 export const createPlanet = authed
