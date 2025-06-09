@@ -16,7 +16,6 @@ export function HydrateClient(props: { children: React.ReactNode }) {
     return <HydrationBoundary state={dehydrate(queryClient)}>{props.children}</HydrationBoundary>;
 }
 
-
 // Helper function for easily prefetching queries in a server component.
 type OrpcQueryOptions = ReturnType<ProcedureUtils<any, any, any, any>['queryOptions']>;
 type OrpcInfiniteOptions = ReturnType<ProcedureUtils<any, any, any, any>['infiniteOptions']>;
