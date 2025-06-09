@@ -3,10 +3,7 @@ import { z } from 'zod'
 import { authed, pub } from '../orpc'
 import { NewPlanetSchema, PlanetSchema, UpdatePlanetSchema } from '../schemas/planet'
 import { retry } from '@/middlewares/retry'
-
-export class Planet {
-  constructor(public id: number, public name: string) { }
-}
+import { Planet } from '@/schemas/planet-class'
 
 export const listPlanets = pub
   .use(retry({ times: 3 }))

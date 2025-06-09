@@ -15,7 +15,13 @@ declare global {
 }
 
 const link = new RPCLink({
-  url: `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/rpc`,
+  url: () => {
+    if (typeof window === 'undefined') {
+      throw new Error('Cannot create RPC link in server-side')
+    }
+
+    return `${typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'}/rpc`
+  },
   plugins: [
     new BatchLinkPlugin({
       groups: [{

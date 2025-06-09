@@ -1,7 +1,7 @@
 'use client';
 
-import { orpc } from '@/lib/orpc';
-import { Planet } from '@/router/planet';
+import { client, orpc } from '@/lib/orpc';
+import { Planet } from '@/schemas/planet-class';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
 export function ListPlanetsQuery() {
@@ -12,6 +12,7 @@ export function ListPlanetsQuery() {
         getNextPageParam: (lastPage) =>
           lastPage.length === 10 ? lastPage.at(-1)?.id : null,
         initialPageParam: 0,
+        refetchOnMount: false,
       })
     );
 
@@ -20,7 +21,7 @@ export function ListPlanetsQuery() {
   }
 
   console.log(
-    data.pages[0]!.every((planet) => planet instanceof Planet) ? '✅' : '❌'
+    data.pages[0]?.every((planet) => planet instanceof Planet) ? '✅' : '❌'
   );
 
   return (
