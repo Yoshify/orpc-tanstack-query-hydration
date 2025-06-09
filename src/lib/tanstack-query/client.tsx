@@ -3,7 +3,7 @@ import { createQueryClient } from './query-client';
 import { createTanstackQueryUtils } from '@orpc/tanstack-query';
 import { type QueryClient, QueryClientProvider, isServer } from '@tanstack/react-query';
 
-export const orpc = createTanstackQueryUtils(client);
+export const orpc = createTanstackQueryUtils(globalThis.$client ?? client);
 
 let clientQueryClientSingleton: QueryClient | undefined;
 const getQueryClient = () => {
