@@ -1,6 +1,6 @@
 'use client';
 
-import { client, orpc } from '@/lib/orpc';
+import { orpc } from '@/lib/tanstack-query/client';
 import { Planet } from '@/schemas/planet-class';
 import { useSuspenseInfiniteQuery } from '@tanstack/react-query';
 
