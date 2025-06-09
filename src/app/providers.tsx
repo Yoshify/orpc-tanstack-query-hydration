@@ -4,6 +4,7 @@ import { orpc } from '@/lib/orpc';
 import { Planet } from '@/schemas/planet-class';
 import { StandardRPCJsonSerializer } from '@orpc/client/standard';
 import {
+  defaultShouldDehydrateQuery,
   dehydrate,
   HydrationBoundary,
   QueryClient,
@@ -28,6 +29,14 @@ export function Providers(props: { children: React.ReactNode }) {
       new QueryClient({
         defaultOptions: {
           dehydrate: {
+            shouldDehydrateQuery: (query) => {
+              console.log('shouldDehydrateQuery', query);
+
+              return (
+                defaultShouldDehydrateQuery(query) ||
+                query.state.status === 'pending'
+              );
+            },
             serializeData: (data) => {
               console.log('serializeData', data);
               const [json, meta] = serializer.serialize(data);
